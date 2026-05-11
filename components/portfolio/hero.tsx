@@ -61,7 +61,7 @@ export async function Hero() {
                 <span className="text-primary">$</span> whoami
               </p>
               <p className="text-foreground mt-1 neon-text">
-                {profile?.name || "Anonymous Hacker"}
+                rejantov
               </p>
             </div>
           </div>
