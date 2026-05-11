@@ -1,4 +1,5 @@
 import { ExternalLink, Github, Star } from "lucide-react"
+import { marked } from "marked"
 import { createClient } from "@/lib/supabase/server"
 
 export async function Projects() {
@@ -46,9 +47,10 @@ export async function Projects() {
             <h3 className="text-xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
               {project.title}
             </h3>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-              {project.description}
-            </p>
+            <div
+              className="md-content text-muted-foreground text-sm leading-relaxed mb-4"
+              dangerouslySetInnerHTML={{ __html: marked.parse(project.description ?? "") as string }}
+            />
             
             {/* Technologies */}
             <div className="flex flex-wrap gap-2 mb-4">
