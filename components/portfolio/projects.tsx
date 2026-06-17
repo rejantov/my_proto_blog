@@ -9,69 +9,109 @@ export async function Projects() {
     .select("*")
     .order("featured", { ascending: false })
     .order("created_at", { ascending: false })
-  
+
+  if (!projects || projects.length === 0) {
+    return (
+      <div className="text-center py-16 text-muted-foreground font-mono text-sm">
+        No projects yet.
+      </div>
+    )
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {projects?.map((project) => (
+      {projects.map((project, idx) => (
         <article
           key={project.id}
-          className="group relative bg-card border border-border rounded-lg overflow-hidden hover:border-primary/50 transition-all hover:neon-glow"
+          className="porto-card group relative rounded-2xl overflow-hidden"
+          style={{
+            background: "rgba(18,10,28,0.65)",
+            border: "1px solid rgba(192,132,252,0.18)",
+            backdropFilter: "blur(4px)",
+          }}
         >
-          {/* Featured badge */}
-          {project.featured && (
-            <div className="absolute top-4 right-4 z-10">
-              <span className="flex items-center gap-1 px-2 py-1 bg-primary/20 text-primary text-xs font-mono rounded border border-primary/30">
-                <Star className="h-3 w-3" />
-                Featured
-              </span>
-            </div>
-          )}
-          
+          {/* Top glow accent */}
+          <div
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px pointer-events-none"
+            style={{ background: "linear-gradient(90deg, transparent, rgba(192,132,252,0.5), transparent)" }}
+          />
+
           {/* Project image */}
-          <div className="h-48 bg-secondary/30 border-b border-border overflow-hidden flex items-center justify-center">
+          <div className="h-44 overflow-hidden flex items-center justify-center border-b"
+            style={{ background: "rgba(168,85,247,0.06)", borderColor: "rgba(192,132,252,0.12)" }}>
             {project.image_url ? (
               <img
                 src={project.image_url}
                 alt={project.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             ) : (
-              <div className="text-6xl font-mono text-primary/30 group-hover:text-primary/50 transition-colors">
+              <span className="text-5xl font-mono text-primary/20 group-hover:text-primary/40 transition-colors select-none">
                 {"</>"}
-              </div>
+              </span>
             )}
           </div>
-          
+
           {/* Content */}
           <div className="p-6">
-            <h3 className="text-xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
-              {project.title}
-            </h3>
+            {/* Header row */}
+            <div className="flex items-start justify-between gap-3 mb-3">
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-xs text-primary/50">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors leading-tight">
+                  {project.title}
+                </h3>
+              </div>
+              {project.featured && (
+                <span
+                  className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-mono shrink-0"
+                  style={{
+                    border: "1px solid rgba(192,132,252,0.3)",
+                    background: "rgba(168,85,247,0.12)",
+                    color: "#d8b4fe",
+                  }}
+                >
+                  <Star className="h-3 w-3" />
+                  Featured
+                </span>
+              )}
+            </div>
+
+            {/* Description */}
             <div
               className="md-content text-muted-foreground text-sm leading-relaxed mb-4"
               dangerouslySetInnerHTML={{ __html: marked.parse(project.description ?? "") as string }}
             />
-            
-            {/* Technologies */}
-            <div className="flex flex-wrap gap-2 mb-4">
-              {project.technologies?.map((tech: string) => (
-                <span
-                  key={tech}
-                  className="px-2 py-1 bg-secondary text-secondary-foreground text-xs font-mono rounded"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-            
+
+            {/* Tech stack */}
+            {project.technologies && project.technologies.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-5">
+                {project.technologies.map((tech: string) => (
+                  <span
+                    key={tech}
+                    className="px-2 py-0.5 rounded-md text-xs font-mono"
+                    style={{
+                      border: "1px solid rgba(192,132,252,0.22)",
+                      background: "rgba(168,85,247,0.07)",
+                      color: "#c3b6d8",
+                    }}
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            )}
+
             {/* Links */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-5">
               {project.github_url && (
                 <a
                   href={project.github_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="flex items-center gap-1.5 text-sm font-mono text-muted-foreground hover:text-primary transition-colors"
                 >
                   <Github className="h-4 w-4" />
                   Code
@@ -82,7 +122,7 @@ export async function Projects() {
                   href={project.live_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="flex items-center gap-1.5 text-sm font-mono text-muted-foreground hover:text-primary transition-colors"
                 >
                   <ExternalLink className="h-4 w-4" />
                   Live Demo

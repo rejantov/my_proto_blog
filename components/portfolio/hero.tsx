@@ -39,73 +39,67 @@ export async function Hero() {
     supabase.from("social_links").select("*").order("display_order"),
   ])
 
+  const nameParts = profile?.name?.split(" ") ?? ["Rejan", "Toverlani"]
+  const firstName = nameParts[0]
+  const lastName = nameParts.slice(1).join(" ")
+
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center py-20 px-4 overflow-hidden">
-      {/* Ambient glow */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-primary/5" />
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+    <section className="relative min-h-[72vh] flex items-center justify-center py-24 px-4 overflow-hidden">
+      {/* Top glow */}
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-40 pointer-events-none opacity-0 dark:opacity-100"
+        style={{
+          background: "radial-gradient(ellipse at center, rgba(168,85,247,0.3), transparent 70%)",
+          filter: "blur(30px)",
+        }}
+      />
 
       <div className="relative z-10 max-w-3xl mx-auto text-center">
-        {/* Terminal-style header */}
-        <div className="inline-block mb-8">
-          <div className="bg-card/80 backdrop-blur border-2 border-primary/50 rounded-lg overflow-hidden neon-glow">
-            <div className="flex items-center gap-2 px-4 py-2 bg-primary/20 border-b border-primary/30">
-              <div className="w-3 h-3 rounded-full bg-red-500" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500" />
-              <div className="w-3 h-3 rounded-full bg-green-500" />
-              <span className="ml-2 text-xs text-primary/80 font-mono">terminal</span>
-            </div>
-            <div className="px-6 py-4 font-mono text-sm text-left">
-              <p className="text-primary/70">
-                <span className="text-primary">$</span> whoami
-              </p>
-              <p className="text-foreground mt-1 neon-text">
-                rejantov
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Main heading */}
-        <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">
-          <span className="text-foreground">{profile?.name?.split(" ")[0] || "Cyber"}</span>
-          <span className="text-primary neon-text"> {profile?.name?.split(" ").slice(1).join(" ") || "Dev"}</span>
+        {/* Name */}
+        <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-tight leading-none">
+          <span className="text-foreground">{firstName} </span>
+          <span className="text-primary">{lastName}</span>
         </h1>
 
         {/* Title */}
-        <p className="text-xl md:text-2xl text-primary font-mono mb-6 neon-text-pink">
+        <p className="text-xl md:text-2xl font-mono mb-6 text-primary/90">
           {profile?.title || "Full Stack Developer"}
         </p>
 
         {/* Bio */}
-        <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto mb-8">
-          {profile?.bio || "Loading bio..."}
+        <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto mb-10">
+          {profile?.bio || ""}
         </p>
 
         {/* Social links */}
-        <div className="flex items-center justify-center gap-4 flex-wrap">
-          {socialLinks?.map((link) => {
-            const Icon = iconMap[link.icon] || Mail
-            const href = link.icon === "mail" ? "mailto:rejantoverlani00@gmail.com" : link.url
-            const isExternal = link.icon !== "mail"
-            return (
-              <a
-                key={link.id}
-                href={href}
-                target={isExternal ? "_blank" : undefined}
-                rel={isExternal ? "noopener noreferrer" : undefined}
-                className="p-3 rounded-lg border-2 border-primary/50 bg-primary/10 hover:border-primary hover:bg-primary/20 hover:neon-glow transition-all group"
-                aria-label={link.platform}
-              >
-                <Icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors" />
-              </a>
-            )
-          })}
-        </div>
+        {socialLinks && socialLinks.length > 0 && (
+          <div className="flex items-center justify-center gap-3 flex-wrap mb-8">
+            {socialLinks.map((link) => {
+              const Icon = iconMap[link.icon] || Mail
+              const href = link.icon === "mail" ? "mailto:rejantoverlani00@gmail.com" : link.url
+              const isExternal = link.icon !== "mail"
+              return (
+                <a
+                  key={link.id}
+                  href={href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noopener noreferrer" : undefined}
+                  aria-label={link.platform}
+                  className="porto-social-btn p-3 rounded-xl group"
+                  style={{
+                    border: "1px solid rgba(192,132,252,0.25)",
+                    background: "rgba(168,85,247,0.06)",
+                  }}
+                >
+                  <Icon className="h-5 w-5 text-primary/70 group-hover:text-primary transition-colors" />
+                </a>
+              )
+            })}
+          </div>
+        )}
 
         {/* Contact info */}
-        <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm font-mono text-muted-foreground">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 text-sm font-mono text-muted-foreground">
           <a
             href="tel:+38346148528"
             className="flex items-center gap-2 hover:text-primary transition-colors"
