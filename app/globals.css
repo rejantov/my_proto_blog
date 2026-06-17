@@ -2,31 +2,7 @@
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
 
-/* Register --accent-hue as an animatable property for rainbow mode */
-@property --accent-hue {
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 280;
-}
-
 @custom-variant dark (&:is(.dark *));
-
-/* ——— Accent colour presets ——— */
-[data-accent="purple"] { --accent-hue: 280; }
-[data-accent="blue"]   { --accent-hue: 220; }
-[data-accent="green"]  { --accent-hue: 140; }
-[data-accent="pink"]   { --accent-hue: 320; }
-[data-accent="red"]    { --accent-hue: 5;   }
-[data-accent="yellow"] { --accent-hue: 55;  }
-
-[data-accent="rainbow"] {
-  animation: hue-rotate-accent 4s linear infinite;
-}
-
-@keyframes hue-rotate-accent {
-  from { --accent-hue: 0; }
-  to   { --accent-hue: 360; }
-}
 
 /* ——— Light theme (default) ——— */
 :root {
@@ -36,22 +12,22 @@
   --card-foreground: 260 20% 8%;
   --popover: 0 0% 100%;
   --popover-foreground: 260 20% 8%;
-  --primary: var(--accent-hue) 65% 45%;
+  --primary: 272 80% 50%;
   --primary-foreground: 0 0% 100%;
   --secondary: 260 10% 92%;
   --secondary-foreground: 260 20% 20%;
   --muted: 260 10% 94%;
   --muted-foreground: 260 10% 45%;
-  --accent: 300 60% 70%;
-  --accent-foreground: 300 60% 20%;
+  --accent: 272 80% 50%;
+  --accent-foreground: 0 0% 100%;
   --destructive: 0 70% 50%;
   --destructive-foreground: 0 0% 100%;
   --border: 260 10% 88%;
   --input: 260 10% 93%;
-  --ring: var(--accent-hue) 65% 45%;
+  --ring: 272 80% 50%;
   --radius: 0.5rem;
 
-  --neon-purple: var(--accent-hue) 65% 45%;
+  --neon-purple: 272 80% 50%;
   --neon-pink: 320 65% 45%;
   --neon-cyan: 180 65% 40%;
   --neon-blue: 220 65% 45%;
@@ -59,35 +35,35 @@
 
 /* ——— Dark theme ——— */
 .dark {
-  --background: 260 20% 8%;
-  --foreground: 260 10% 95%;
-  --card: 260 20% 10%;
-  --card-foreground: 260 10% 95%;
-  --popover: 260 20% 9%;
-  --popover-foreground: 260 10% 95%;
-  --primary: var(--accent-hue) 80% 60%;
-  --primary-foreground: 260 20% 8%;
-  --secondary: 260 15% 15%;
-  --secondary-foreground: 260 10% 90%;
-  --muted: 260 15% 18%;
-  --muted-foreground: 260 10% 55%;
-  --accent: 300 70% 55%;
-  --accent-foreground: 260 20% 8%;
+  --background: 265 55% 4%;
+  --foreground: 260 40% 94%;
+  --card: 265 48% 7%;
+  --card-foreground: 260 40% 94%;
+  --popover: 265 50% 5%;
+  --popover-foreground: 260 40% 94%;
+  --primary: 272 91% 65%;
+  --primary-foreground: 265 55% 4%;
+  --secondary: 260 25% 12%;
+  --secondary-foreground: 260 30% 80%;
+  --muted: 260 25% 11%;
+  --muted-foreground: 265 18% 60%;
+  --accent: 272 91% 65%;
+  --accent-foreground: 265 55% 4%;
   --destructive: 0 70% 50%;
   --destructive-foreground: 0 0% 100%;
-  --border: var(--accent-hue) 40% 25%;
-  --input: 260 15% 12%;
-  --ring: var(--accent-hue) 80% 60%;
+  --border: 272 45% 20%;
+  --input: 260 25% 10%;
+  --ring: 272 91% 65%;
 
-  --neon-purple: var(--accent-hue) 80% 60%;
+  --neon-purple: 272 91% 65%;
   --neon-pink: 320 80% 60%;
   --neon-cyan: 180 70% 60%;
   --neon-blue: 240 70% 60%;
 }
 
 @theme inline {
-  --font-sans: 'Geist', 'Geist Fallback', system-ui, sans-serif;
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback', monospace;
+  --font-sans: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-card: hsl(var(--card));
@@ -131,10 +107,10 @@
   }
 }
 
-/* Cyberpunk utility classes */
+/* Utility classes */
 @layer utilities {
   .neon-text {
-    text-shadow: 0 0 10px hsl(var(--accent-hue) 80% 60%), 0 0 20px hsl(var(--accent-hue) 80% 60%), 0 0 40px hsl(var(--accent-hue) 80% 60%);
+    text-shadow: 0 0 10px hsl(272 80% 60%), 0 0 20px hsl(272 80% 60%), 0 0 40px hsl(272 80% 60%);
   }
 
   .neon-text-pink {
@@ -142,11 +118,11 @@
   }
 
   .neon-border {
-    box-shadow: 0 0 5px hsl(var(--accent-hue) 80% 60%), 0 0 10px hsl(var(--accent-hue) 80% 60%), inset 0 0 5px hsl(var(--accent-hue) 80% 60%);
+    box-shadow: 0 0 5px hsl(272 80% 60%), 0 0 10px hsl(272 80% 60%), inset 0 0 5px hsl(272 80% 60%);
   }
 
   .neon-glow {
-    box-shadow: 0 0 20px hsl(var(--accent-hue) 80% 60% / 0.5);
+    box-shadow: 0 0 20px hsl(272 80% 60% / 0.5);
   }
 
   .scanline {
@@ -172,6 +148,8 @@
   }
 }
 
+/* ——— Animations ——— */
+
 @keyframes glitch {
   0%, 90%, 100% { transform: translate(0); }
   92% { transform: translate(-2px, 1px); }
@@ -182,15 +160,84 @@
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 5px hsl(var(--accent-hue) 80% 60%), 0 0 10px hsl(var(--accent-hue) 80% 60%);
+    box-shadow: 0 0 5px hsl(272 80% 60%), 0 0 10px hsl(272 80% 60%);
   }
   50% {
-    box-shadow: 0 0 10px hsl(var(--accent-hue) 80% 60%), 0 0 20px hsl(var(--accent-hue) 80% 60%), 0 0 30px hsl(var(--accent-hue) 80% 60%);
+    box-shadow: 0 0 10px hsl(272 80% 60%), 0 0 20px hsl(272 80% 60%), 0 0 30px hsl(272 80% 60%);
   }
 }
 
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.5s ease both;
+}
+
+@keyframes driftBlob {
+  0%, 100% { transform: translate(0, 0); }
+  50%       { transform: translate(42px, -32px); }
+}
+
+@keyframes beamPulse {
+  0%, 100% { opacity: 0.5; transform: scaleY(1); }
+  50%       { opacity: 0.9; transform: scaleY(1.05); }
+}
+
+@keyframes topGlow {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+/* Dark-mode page background */
+.porto-bg {
+  background: hsl(var(--background));
+}
+.dark .porto-bg {
+  background: radial-gradient(ellipse at 50% -5%, #1c1033 0%, #0c0716 48%, #08040f 100%);
+}
+
+/* Hides fx layer in light mode */
+.porto-fx {
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.dark .porto-fx {
+  opacity: 1;
+}
+
+@keyframes streamA {
+  0%   { transform: translate(-25vw, 105vh) rotate(26deg); opacity: 0; }
+  10%  { opacity: 0.55; }
+  88%  { opacity: 0.55; }
+  100% { transform: translate(70vw, -25vh) rotate(26deg); opacity: 0; }
+}
+
+@keyframes streamB {
+  0%   { transform: translate(105vw, -15vh) rotate(-24deg); opacity: 0; }
+  12%  { opacity: 0.5; }
+  86%  { opacity: 0.5; }
+  100% { transform: translate(-25vw, 95vh) rotate(-24deg); opacity: 0; }
+}
+
+@keyframes streamC {
+  0%   { transform: translate(-15vw, -8vh) rotate(16deg); opacity: 0; }
+  14%  { opacity: 0.45; }
+  84%  { opacity: 0.45; }
+  100% { transform: translate(85vw, 70vh) rotate(16deg); opacity: 0; }
+}
+
+@keyframes streamD {
+  0%   { transform: translate(55vw, 112vh) rotate(42deg); opacity: 0; }
+  10%  { opacity: 0.4; }
+  88%  { opacity: 0.4; }
+  100% { transform: translate(98vw, -22vh) rotate(42deg); opacity: 0; }
 }
 
 /* Custom scrollbar */
@@ -209,7 +256,37 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--accent-hue) 80% 60%);
+  background: hsl(272 80% 60%);
+}
+
+/* ========================================
+   PORTFOLIO HOVER EFFECTS
+   (used by server components that can't use event handlers)
+   ======================================== */
+
+.porto-card {
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.porto-card:hover {
+  border-color: rgba(192, 132, 252, 0.5) !important;
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
+}
+
+.porto-social-btn {
+  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+}
+.porto-social-btn:hover {
+  border-color: rgba(192, 132, 252, 0.6) !important;
+  background: rgba(168, 85, 247, 0.18) !important;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.35);
+}
+
+.porto-cv-btn {
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.porto-cv-btn:hover {
+  background: rgba(168, 85, 247, 0.3) !important;
+  box-shadow: 0 0 34px rgba(168, 85, 247, 0.5) !important;
 }
 
 /* ========================================
@@ -359,7 +436,7 @@
 }
 
 .hover-glow:hover {
-  filter: drop-shadow(0 0 8px hsl(var(--accent-hue) 80% 60%)) drop-shadow(0 0 15px hsl(var(--accent-hue) 80% 60%));
+  filter: drop-shadow(0 0 8px hsl(272 80% 60%)) drop-shadow(0 0 15px hsl(272 80% 60%));
 }
 
 .pixel-border {
