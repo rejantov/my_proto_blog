@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import { isAdminEmail } from "@/lib/supabase/admin"
 import { createClient } from "@/lib/supabase/server"
-import { Terminal, Plus, Edit2, Eye, EyeOff, UserRound, FolderKanban, GraduationCap, Share2, FileText, Briefcase, Activity, Palette } from "lucide-react"
+import { Terminal, Plus, Edit2, Eye, EyeOff, UserRound, FolderKanban, GraduationCap, Share2, FileText, Briefcase, Activity, Award } from "lucide-react"
 import { DeletePostButton, LogoutButton } from "./admin-actions"
 
 export default async function AdminPage() {
@@ -18,7 +18,7 @@ export default async function AdminPage() {
     redirect("/login?error=unauthorized")
   }
 
-  const [{ data: posts }, { data: projects }, { data: education }, { data: socialLinks }, { data: profile }, { data: workExperience }, { data: activeResume }] =
+  const [{ data: posts }, { data: projects }, { data: education }, { data: socialLinks }, { data: profile }, { data: workExperience }, { data: activeResume }, { data: certifications }] =
     await Promise.all([
       supabase.from("blog_posts").select("*").order("created_at", { ascending: false }),
       supabase.from("projects").select("id"),
@@ -27,6 +27,7 @@ export default async function AdminPage() {
       supabase.from("profile").select("id").limit(1),
       supabase.from("work_experience").select("id"),
       supabase.from("resumes").select("id").eq("is_active", true).maybeSingle(),
+      supabase.from("certifications").select("id"),
     ])
   
   const formatDate = (date: string) => {
@@ -202,16 +203,16 @@ export default async function AdminPage() {
             </Link>
 
             <Link
-              href="/admin/appearance"
+              href="/admin/certifications"
               className="bg-card border border-border rounded-lg p-5 hover:border-primary/50 transition-all"
             >
               <div className="flex items-center justify-between mb-4">
-                <Palette className="h-5 w-5 text-primary" />
-                <span className="text-xs font-mono text-muted-foreground">Site-wide</span>
+                <Award className="h-5 w-5 text-primary" />
+                <span className="text-xs font-mono text-muted-foreground">{certifications?.length || 0} items</span>
               </div>
-              <div className="text-lg font-bold mb-1">Appearance</div>
+              <div className="text-lg font-bold mb-1">Certifications</div>
               <p className="text-sm text-muted-foreground mb-3">
-                Accent colour — purple, blue, green, pink, red, yellow, or rainbow.
+                Issued certificates, credentials, and online course completions.
               </p>
               <div className="text-xs font-mono text-primary">Open editor</div>
             </Link>

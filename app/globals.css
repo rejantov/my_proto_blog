@@ -4,37 +4,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ——— Light theme (default) ——— */
+/* ——— Dark theme (always-on) ——— */
 :root {
-  --background: 0 0% 97%;
-  --foreground: 260 20% 8%;
-  --card: 0 0% 100%;
-  --card-foreground: 260 20% 8%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 260 20% 8%;
-  --primary: 272 80% 50%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 260 10% 92%;
-  --secondary-foreground: 260 20% 20%;
-  --muted: 260 10% 94%;
-  --muted-foreground: 260 10% 45%;
-  --accent: 272 80% 50%;
-  --accent-foreground: 0 0% 100%;
-  --destructive: 0 70% 50%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 260 10% 88%;
-  --input: 260 10% 93%;
-  --ring: 272 80% 50%;
-  --radius: 0.5rem;
-
-  --neon-purple: 272 80% 50%;
-  --neon-pink: 320 65% 45%;
-  --neon-cyan: 180 65% 40%;
-  --neon-blue: 220 65% 45%;
-}
-
-/* ——— Dark theme ——— */
-.dark {
   --background: 265 55% 4%;
   --foreground: 260 40% 94%;
   --card: 265 48% 7%;
@@ -54,6 +25,7 @@
   --border: 272 45% 20%;
   --input: 260 25% 10%;
   --ring: 272 91% 65%;
+  --radius: 0.5rem;
 
   --neon-purple: 272 91% 65%;
   --neon-pink: 320 80% 60%;
@@ -195,20 +167,13 @@
   50%       { opacity: 1; }
 }
 
-/* Dark-mode page background */
+/* Page background — always dark */
 .porto-bg {
-  background: hsl(var(--background));
-}
-.dark .porto-bg {
   background: radial-gradient(ellipse at 50% -5%, #1c1033 0%, #0c0716 48%, #08040f 100%);
 }
 
-/* Hides fx layer in light mode */
+/* FX layer — always visible */
 .porto-fx {
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-.dark .porto-fx {
   opacity: 1;
 }
 
@@ -257,6 +222,55 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(272 80% 60%);
+}
+
+/* ========================================
+   TIMELINE DOT — black-hole style
+   ======================================== */
+
+.porto-timeline-dot {
+  animation: timelineDotPulse 3s ease-in-out infinite;
+}
+
+@keyframes timelineDotPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 3px rgba(168,85,247,0.10),
+      0 0 8px  rgba(168,85,247,0.50),
+      0 0 20px rgba(168,85,247,0.20),
+      inset 0 0 5px rgba(168,85,247,0.10);
+  }
+  50% {
+    box-shadow:
+      0 0 0 5px rgba(168,85,247,0.18),
+      0 0 14px rgba(168,85,247,0.75),
+      0 0 32px rgba(168,85,247,0.35),
+      inset 0 0 8px rgba(168,85,247,0.18);
+  }
+}
+
+/* ========================================
+   MOBILE RESPONSIVE — portfolio
+   ======================================== */
+
+@media (max-width: 639px) {
+  .porto-header-wrap {
+    padding: 8px 12px !important;
+  }
+
+  .porto-logo {
+    font-size: 13px !important;
+  }
+
+  .porto-nav-link {
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+  }
+
+  .porto-tab-btn {
+    padding: 9px 13px !important;
+    font-size: 13px !important;
+  }
 }
 
 /* ========================================
@@ -474,6 +488,77 @@
 .category-books   { background: hsl(40 70% 40%);  border-color: hsl(40 70% 50%);  color: white; }
 .category-life    { background: hsl(320 70% 50%); border-color: hsl(320 70% 60%); color: white; }
 .category-hiking  { background: hsl(120 50% 40%); border-color: hsl(120 50% 50%); color: white; }
+
+/* ========================================
+   CODE BLOCKS — project detail pages
+   ======================================== */
+
+.code-block {
+  background: rgba(6,3,14,0.95);
+  border: 1px solid rgba(192,132,252,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1.25em 0;
+}
+
+.code-block-header {
+  display: flex;
+  align-items: center;
+  padding: 6px 14px;
+  background: rgba(168,85,247,0.1);
+  border-bottom: 1px solid rgba(192,132,252,0.15);
+}
+
+.code-block-lang {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 11px;
+  color: rgba(192,132,252,0.95);
+  letter-spacing: 0.07em;
+}
+
+.code-block pre {
+  margin: 0 !important;
+  padding: 1rem 1.25rem !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  overflow-x: auto;
+}
+
+.code-block code {
+  font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+  font-size: 0.875em !important;
+  line-height: 1.65;
+  color: #e2d9f3 !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* Unlabeled pre/code in project content */
+.project-content pre:not(.code-block pre) {
+  background: rgba(6,3,14,0.95);
+  border: 1px solid rgba(192,132,252,0.2);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  margin: 1.25em 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875em;
+  color: #e2d9f3;
+}
+
+/* Inline code in project content */
+.project-content :not(pre) > code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875em;
+  background: rgba(168,85,247,0.15);
+  border: 1px solid rgba(192,132,252,0.2);
+  color: #d8b4fe;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+/* ======================================== */
 
 /* Minimal markdown styles for portfolio descriptions (projects, experience, education) */
 .md-content p { margin-bottom: 0.5em; }

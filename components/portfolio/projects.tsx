@@ -1,6 +1,7 @@
 import { ExternalLink, Github, Star } from "lucide-react"
+import { ProjectCard } from "./project-card"
 import { marked } from "marked"
-import { createClient } from "@/lib/supabase/server"
+import { createPublicClient as createClient } from "@/lib/supabase/public"
 
 export async function Projects() {
   const supabase = await createClient()
@@ -20,9 +21,10 @@ export async function Projects() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {projects.map((project, idx) => (
-        <article
+      {projects.map((project: any, idx: number) => (
+        <ProjectCard
           key={project.id}
+          slug={project.slug}
           className="porto-card group relative rounded-2xl overflow-hidden"
           style={{
             background: "rgba(18,10,28,0.65)",
@@ -104,7 +106,7 @@ export async function Projects() {
               </div>
             )}
 
-            {/* Links */}
+            {/* Links — these are <a> tags so the ProjectCard onClick skips them */}
             <div className="flex items-center gap-5">
               {project.github_url && (
                 <a
@@ -130,7 +132,7 @@ export async function Projects() {
               )}
             </div>
           </div>
-        </article>
+        </ProjectCard>
       ))}
     </div>
   )

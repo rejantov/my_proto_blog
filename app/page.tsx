@@ -1,8 +1,11 @@
+export const revalidate = 120 // re-render at most every 2 minutes
+
 import { Hero } from "@/components/portfolio/hero"
 import { PortfolioTabs } from "@/components/portfolio/portfolio-tabs"
 import { Projects } from "@/components/portfolio/projects"
 import { Experience } from "@/components/portfolio/experience"
 import { Education } from "@/components/portfolio/education"
+import { Certifications } from "@/components/portfolio/certifications"
 import { CVSection } from "@/components/portfolio/cv-section"
 import { PortfolioHeader } from "@/components/portfolio/portfolio-header"
 
@@ -69,6 +72,7 @@ export default function HomePage() {
             projectsContent={<Projects />}
             experienceContent={<Experience />}
             educationContent={<Education />}
+            certificationsContent={<Certifications />}
             cvContent={<CVSection />}
           />
         </main>

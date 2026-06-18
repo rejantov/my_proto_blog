@@ -1,5 +1,5 @@
 import { Github, Linkedin, Twitter, Mail, Facebook, Instagram, Phone } from "lucide-react"
-import { createClient } from "@/lib/supabase/server"
+import { createPublicClient as createClient } from "@/lib/supabase/public"
 
 const SnapchatIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -47,7 +47,7 @@ export async function Hero() {
     <section className="relative min-h-[72vh] flex items-center justify-center py-24 px-4 overflow-hidden">
       {/* Top glow */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-40 pointer-events-none opacity-0 dark:opacity-100"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-40 pointer-events-none"
         style={{
           background: "radial-gradient(ellipse at center, rgba(168,85,247,0.3), transparent 70%)",
           filter: "blur(30px)",
@@ -74,7 +74,7 @@ export async function Hero() {
         {/* Social links */}
         {socialLinks && socialLinks.length > 0 && (
           <div className="flex items-center justify-center gap-3 flex-wrap mb-8">
-            {socialLinks.map((link) => {
+            {socialLinks.map((link: any) => {
               const Icon = iconMap[link.icon] || Mail
               const href = link.icon === "mail" ? "mailto:rejantoverlani00@gmail.com" : link.url
               const isExternal = link.icon !== "mail"
