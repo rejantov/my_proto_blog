@@ -6,24 +6,27 @@ interface PortfolioTabsProps {
   projectsContent: React.ReactNode
   experienceContent: React.ReactNode
   educationContent: React.ReactNode
+  certificationsContent: React.ReactNode
   cvContent: React.ReactNode
 }
 
 const tabs = [
-  { id: "projects",   label: "</> Projects"  },
-  { id: "experience", label: "♥ Experience"  },
-  { id: "education",  label: "✦ Education"   },
-  { id: "cv",         label: "◈ CV/Resume"   },
+  { id: "projects",        label: "</> Projects"      },
+  { id: "experience",      label: "♥ Experience"      },
+  { id: "education",       label: "✦ Education"       },
+  { id: "certifications",  label: "★ Certifications"  },
+  { id: "cv",              label: "◈ CV/Resume"       },
 ]
 
 const terminalLabels: Record<string, string> = {
-  projects:   "$ ls ./projects",
-  experience: "$ cat ./experience",
-  education:  "$ cat ./education",
-  cv:         "$ open ./resume.pdf",
+  projects:       "$ ls ./projects",
+  experience:     "$ cat ./experience",
+  education:      "$ cat ./education",
+  certifications: "$ cat ./certifications",
+  cv:             "$ open ./resume.pdf",
 }
 
-export function PortfolioTabs({ projectsContent, experienceContent, educationContent, cvContent }: PortfolioTabsProps) {
+export function PortfolioTabs({ projectsContent, experienceContent, educationContent, certificationsContent, cvContent }: PortfolioTabsProps) {
   const [activeTab, setActiveTab] = useState("projects")
 
   const activeStyle: React.CSSProperties = {
@@ -60,6 +63,7 @@ export function PortfolioTabs({ projectsContent, experienceContent, educationCon
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
+              className="porto-tab-btn"
               style={activeTab === tab.id ? activeStyle : inactiveStyle}
               onMouseEnter={(e) => {
                 if (activeTab !== tab.id) {
@@ -86,10 +90,11 @@ export function PortfolioTabs({ projectsContent, experienceContent, educationCon
 
         {/* Tab content */}
         <div className="min-h-[400px] animate-fade-up">
-          {activeTab === "projects"   && projectsContent}
-          {activeTab === "experience" && experienceContent}
-          {activeTab === "education"  && educationContent}
-          {activeTab === "cv"         && cvContent}
+          {activeTab === "projects"        && projectsContent}
+          {activeTab === "experience"      && experienceContent}
+          {activeTab === "education"       && educationContent}
+          {activeTab === "certifications"  && certificationsContent}
+          {activeTab === "cv"              && cvContent}
         </div>
       </div>
     </section>

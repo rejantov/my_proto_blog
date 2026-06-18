@@ -1,5 +1,5 @@
 import { Download, FileText } from "lucide-react"
-import { createClient } from "@/lib/supabase/server"
+import { createPublicClient as createClient } from "@/lib/supabase/public"
 
 export async function CVSection() {
   const supabase = await createClient()

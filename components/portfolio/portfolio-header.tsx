@@ -2,8 +2,6 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
 
 const base: React.CSSProperties = {
   display: "inline-flex",
@@ -31,27 +29,22 @@ const active: React.CSSProperties = {
   boxShadow: "0 0 16px rgba(168,85,247,0.25), inset 0 0 12px rgba(168,85,247,0.08)",
 }
 
-const iconBtn: React.CSSProperties = {
-  ...base,
-  padding: "10px 14px",
-}
 
 export function PortfolioHeader() {
   const pathname = usePathname()
-  const { resolvedTheme, setTheme } = useTheme()
 
   const isPortfolio = pathname === "/" || pathname.startsWith("/portfolio")
   const isBlog = pathname.startsWith("/blog")
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between pointer-events-none"
+      className="porto-header-wrap fixed top-0 left-0 right-0 z-50 flex items-center justify-between pointer-events-none"
       style={{ padding: "18px 32px" }}
     >
       {/* Logo */}
       <Link
         href="/"
-        className="pointer-events-auto"
+        className="pointer-events-auto porto-logo"
         style={{
           fontFamily: "'JetBrains Mono', monospace",
           fontSize: 17,
@@ -68,21 +61,12 @@ export function PortfolioHeader() {
 
       {/* Buttons */}
       <div className="pointer-events-auto flex items-center" style={{ gap: 14 }}>
-        <Link href="/" style={isPortfolio ? active : base}>
+        <Link href="/" className="porto-nav-link" style={isPortfolio ? active : base}>
           ./portfolio
         </Link>
-        <Link href="/blog" style={isBlog ? active : base}>
+        <Link href="/blog" className="porto-nav-link" style={isBlog ? active : base}>
           ./blog
         </Link>
-        <button
-          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-          style={iconBtn}
-          aria-label="Toggle theme"
-        >
-          {resolvedTheme === "dark"
-            ? <Sun className="h-4 w-4" style={{ color: "rgba(255,255,255,0.75)" }} />
-            : <Moon className="h-4 w-4" style={{ color: "rgba(255,255,255,0.75)" }} />}
-        </button>
       </div>
     </div>
   )

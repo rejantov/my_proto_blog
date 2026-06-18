@@ -15,6 +15,8 @@ interface Project {
   live_url: string | null
   github_url: string | null
   featured: boolean
+  slug: string | null
+  content: string | null
   created_at: string
   updated_at: string
 }
@@ -31,6 +33,12 @@ const emptyForm = {
   liveUrl: "",
   githubUrl: "",
   featured: false,
+  slug: "",
+  content: "",
+}
+
+function toSlug(str: string) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")
 }
 
 export function ProjectsManager({ initialProjects }: ProjectsManagerProps) {
@@ -43,6 +51,8 @@ export function ProjectsManager({ initialProjects }: ProjectsManagerProps) {
   const [liveUrl, setLiveUrl] = useState(emptyForm.liveUrl)
   const [githubUrl, setGithubUrl] = useState(emptyForm.githubUrl)
   const [featured, setFeatured] = useState(emptyForm.featured)
+  const [slug, setSlug] = useState(emptyForm.slug)
+  const [content, setContent] = useState(emptyForm.content)
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -81,6 +91,8 @@ export function ProjectsManager({ initialProjects }: ProjectsManagerProps) {
     setLiveUrl(emptyForm.liveUrl)
     setGithubUrl(emptyForm.githubUrl)
     setFeatured(emptyForm.featured)
+    setSlug(emptyForm.slug)
+    setContent(emptyForm.content)
   }
 
   const handleEdit = (project: Project) => {
@@ -92,7 +104,14 @@ export function ProjectsManager({ initialProjects }: ProjectsManagerProps) {
     setLiveUrl(project.live_url ?? "")
     setGithubUrl(project.github_url ?? "")
     setFeatured(project.featured)
+    setSlug(project.slug ?? "")
+    setContent(project.content ?? "")
     setError(null)
+  }
+
+  const handleTitleChange = (value: string) => {
+    setTitle(value)
+    if (!editingId) setSlug(toSlug(value))
   }
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -111,6 +130,8 @@ export function ProjectsManager({ initialProjects }: ProjectsManagerProps) {
       live_url: liveUrl || null,
       github_url: githubUrl || null,
       featured,
+      slug: slug || null,
+      content: content || null,
       updated_at: new Date().toISOString(),
     }
 
@@ -314,12 +335,23 @@ export function ProjectsManager({ initialProjects }: ProjectsManagerProps) {
 
             <div>
               <label className="block text-sm font-mono text-muted-foreground mb-2">title</label>
-              <input value={title} onChange={(event) => setTitle(event.target.value)} className="w-full px-4 py-3 bg-input border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" />
+              <input value={title} onChange={(e) => handleTitleChange(e.target.value)} className="w-full px-4 py-3 bg-input border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" />
+            </div>
+
+            <div>
+              <label className="block text-sm font-mono text-muted-foreground mb-2">slug</label>
+              <input
+                value={slug}
+                onChange={(e) => setSlug(e.target.value)}
+                placeholder="auto-generated from title"
+                className="w-full px-4 py-3 bg-input border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-mono text-sm"
+              />
+              <p className="text-xs text-muted-foreground font-mono mt-1">Used in the URL: /projects/<span className="text-primary">{slug || "…"}</span></p>
             </div>
 
             <div>
               <label className="block text-sm font-mono text-muted-foreground mb-2">description</label>
-              <textarea value={description} onChange={(event) => setDescription(event.target.value)} rows={5} className="w-full px-4 py-3 bg-input border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-y" />
+              <textarea value={description} onChange={(event) => setDescription(event.target.value)} rows={3} className="w-full px-4 py-3 bg-input border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-y" />
             </div>
 
             <div>
@@ -370,6 +402,19 @@ export function ProjectsManager({ initialProjects }: ProjectsManagerProps) {
                 <label className="block text-sm font-mono text-muted-foreground mb-2">github_url</label>
                 <input type="url" value={githubUrl} onChange={(event) => setGithubUrl(event.target.value)} className="w-full px-4 py-3 bg-input border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="https://github.com/..." />
               </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-mono text-muted-foreground mb-2">
+                content <span className="text-muted-foreground/50">(markdown — shown on the project detail page)</span>
+              </label>
+              <textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                rows={12}
+                placeholder={"## Overview\n\nDescribe this project in depth...\n\n```jsx\n// code snippet\n```"}
+                className="w-full px-4 py-3 bg-input border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-y font-mono text-sm"
+              />
             </div>
 
             <label className="flex items-center gap-3 text-sm font-mono text-muted-foreground">
